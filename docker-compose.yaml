@@ -1,0 +1,80 @@
+
+# docker-compose up
+# To get a appropriate version for your solr, redis or postgres
+# you can change the docker image in `dockefile` of each image container below
+
+version: '3.3'
+
+services:
+  ckan_app:
+    container_name: ckan_base
+    environment:
+      init_database: '0'
+      environment: docker
+    build:
+      context: .
+      dockerfile: dockerfiles/ckan/Dockerfile
+    depends_on:
+      - solr
+      - db
+      - redis
+      - mailhog
+    ports:
+      - "8000:8000"
+    volumes:
+      - type: volume
+        source: ckan_data
+        target: /app/uploads
+      - type: bind
+        source: ./extensions
+        target: /app/extensions
+      - type: bind
+        source: ./
+        target: /build
+      - type: bind
+        source: ./bin
+        target: /app/bin
+      - type: bind
+        source: ./temp
+        target: /app/temp
+  solr:
+    container_name: ckan_base_solr
+    build:
+      context: .
+      dockerfile: dockerfiles/Solr/Dockerfile.solr_6_6
+    ports:
+      - "8983:8983"
+  db:
+    container_name: ckan_base_db
+    build:
+      context: .
+      dockerfile: dockerfiles/Postgres/Dockerfile.postgres_9_6
+    environment:
+      POSTGRES_USER: ckan_default
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: ckan_default
+      LANG: en_US.utf8
+    ports:
+      - "5432:5432"
+    volumes:
+      - type: volume
+        source: ckan_db
+        target: /var/lib/postgresql/data
+  redis:
+    container_name: ckan_base_redis
+    build:
+      context: .
+      dockerfile: dockerfiles/Redis/Dockerfile.redis_3_2
+    ports:
+      - "6379:6379"
+  mailhog:
+    container_name: ckan_base_mailhog
+    build:
+      context: .
+      dockerfile: dockerfiles/Mailhog/Dockerfile
+    ports:
+      - "8025:8025"
+      - "1025:1025"
+volumes:
+  ckan_data:
+  ckan_db:

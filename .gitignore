@@ -99,3 +99,19 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+# End of https://www.gitignore.io/api/python
+# CSS build files
+**/public/css
+
+# exclude built javascript
+**/public/javascript
+
+# Installed node modules
+node_modules
+
+#temp folder
+/temp
+
+# ignore all extensions by default
+/extensions/*
