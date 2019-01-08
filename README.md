@@ -16,21 +16,27 @@ In the Project root folder:
 * run `docker-compose rm -f ckan_app`
 * run `docker-compose up -d --build --no-recreate ckan_app`
 
-##Config in local development
+# Install appropriate CKAN Version
+
+Change the value of variable `` in `dockfiles/ckan/Dockerfile`
+
+
+
+## Config in local development
 
 * Gurnicorn: server
 * Supervisor: automatically restart gurnicorn, harvest_gather_stage
 
-##Supervisor
+## Supervisor
 * Status: `supervisorctl /app/config/supervisor/supervisord_docker.conf status`
 * remove all tasks : `supervisorctl /app/config/supervisor/supervisord_docker.conf remove all`
 * reload supervisor: `supervisorctl /app/config/supervisor/supervisord_docker.conf status`
 
-##Solr
+## Solr
 * URL: http://solr:8983/solr/ckan
 
-##Redis
+## Redis
 * URL: redis://localhost:6379/0
 
-##Mailhog
+## Mailhog
 * URL: http://localhost:8025

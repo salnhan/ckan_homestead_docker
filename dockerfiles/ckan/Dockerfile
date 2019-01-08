@@ -2,7 +2,7 @@ FROM python:2.7-alpine3.7
 LABEL name="CKAN Base" version="1.0.0"
 
 ENV environment=development \
-ckan_version=2.7.4 \
+ckan_version=2.7.5 \
 init_database=true
 
 VOLUME /app/uploads
